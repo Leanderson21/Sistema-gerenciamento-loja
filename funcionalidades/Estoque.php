@@ -47,6 +47,7 @@ public function validarVazio($dados){
             return true;
         }else if(empty($this->qtd) || $this->qtd == null || $this->qtd == "") {
             return true;
+            
         }
 }
 
