@@ -34,10 +34,9 @@ public function queryInsert($dados){
 }
 // VALIDAÇÃO DE DADOS REPETIDOS
 public function validarQuery($dados){
-    $this->nome = $dados["nome"];
     $this->marca = $dados["marca"];
-    $this->validar = $this->conn->conectar()->prepare("SELECT * FROM produto WHERE nome=:nome AND marca=:marca");
-    $this->validar->bindValue(":nome", $this->nome);
+    $this->validar = $this->conn->conectar()->prepare("SELECT * FROM produto WHERE marca=:marca");
+
     $this->validar->bindValue(":marca", $this->marca);
     $this->validar->execute();
     if ($this->validar->rowCount() == 0){

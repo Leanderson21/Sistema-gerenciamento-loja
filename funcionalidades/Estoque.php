@@ -4,7 +4,7 @@
 class Estoque  {
 
 private $qtd;
-private $cod_P;
+private $id_p;
 private $conn; 
 private $inserir;
 private $validar;
@@ -19,10 +19,10 @@ public function __construct(){
 
 public function queryInsert($dados){
     $this->qtd = $dados["qtd"];
-    $this->cod_P = $dados["id_produto"];
-    $this->inserir = $this->conn->conectar()->prepare("INSERT INTO estoque(quantidade , id_produto) VALUES(:qtd, :cod)");
+    $this->id_p = $dados["id_produto"];
+    $this->inserir = $this->conn->conectar()->prepare("INSERT INTO estoque(quantidade , id_produto) VALUES(:qtd, :id_p)");
     $this->inserir->bindValue(":qtd", $this->qtd);
-    $this->inserir->bindValue(":cod", $this->cod_P);
+    $this->inserir->bindValue(":id_p", $this->id_p);
     if ($this->inserir->execute()) {
         return "ok";
     }else {
@@ -41,22 +41,22 @@ public function querySelect(){
 
 public function validarVazio($dados){
     $this->qtd = $dados["qtd"];
-    $this->cod_P = $dados["id_produto"];
+    $this->id_p = $dados["id_produto"];
   
-        if (empty($this->cod_P) || $this->cod_P == null || $this->cod_P == "" || $this->cod_P == "---"){
+        if (empty($this->id_p) || $this->id_p == null || $this->id_p == "" || $this->id_p == "---"){
             return true;
         }else if(empty($this->qtd) || $this->qtd == null || $this->qtd == "") {
             return true;
-            
+
         }
 }
 
 
 
 public function queryValidar($dados){
-    $this->cod_P = $dados["id_produto"];
-    $this->validar = $this->conn->conectar()->prepare("SELECT * FROM estoque WHERE id_produto=:cod_p");
-    $this->validar->bindValue(":cod_p", $this->cod_P);
+    $this->id_p = $dados["id_produto"];
+    $this->validar = $this->conn->conectar()->prepare("SELECT * FROM estoque WHERE id_produto=:id_p");
+    $this->validar->bindValue(":id_p", $this->id_p);
     $this->validar->execute();
     if ($this->validar->rowCount() == 0){
         return 1;

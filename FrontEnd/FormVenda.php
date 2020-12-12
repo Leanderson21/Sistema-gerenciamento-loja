@@ -13,6 +13,17 @@ $prod_view = new Produto();
     $func_view = new Funcionario();
         $view_f = $func_view->querySelect();
 
+
+// 
+    $vender = new Venda();
+    if(isset($_POST["btnCad"])){
+       $tot =  $vender->calcVenda($_POST);
+          $vender->queryInsert($_POST, $tot);
+    
+    }
+        
+
+
 ?>
 
 <!DOCTYPE html>
@@ -29,39 +40,39 @@ $prod_view = new Produto();
 <!-- PRODUTO -->
 <label for="nome">Produto:</label>
 
-<select name="" id="">
+<select name="produto" id="">
 <option value="">---</option>  
     <?php foreach($view_p as $valor_p){ ?> 
-    <option value="<?php echo $valor_p["cod_Produto"]."<br/>";?>"><?php echo $valor_p["nome"]."<br/>"; ?></option>
+    <option value="<?php echo $valor_p["id_produto"]."<br/>";?>"><?php echo $valor_p["nome"]."<br/>"; ?></option>
     <?php } ?>
 </select><br>
 <!-- QUANTIDADE_PRODUTO -->
 <label for="nome">Quantidade:</label>
-<input type="number" name="qtdP"><br>
+<input type="number" name="qtd_produto"><br>
 
 <!-- SERVIÇO -->
 <label for="nome">Serviço:</label>
 
-<select name="" id=""><br>
+<select name="servico" id=""><br>
 <option value="">---</option>
 <?php foreach($view_s as $valor_s){ ?> 
-<option value="<?php echo $valor_s["cod_Servico"]."<br/>";?>"><?php echo $valor_s["nome"]."<br/>"; ?></option>
+<option value="<?php echo $valor_s["id_servico"]."<br/>";?>"><?php echo $valor_s["nome"]."<br/>"; ?></option>
 <?php } ?>
 </select><br>
 <!-- QUANTIDADE_SERVIÇO -->
 <label for="nome">Quantidade:</label>
-<input type="number" name="qtdS"><br>
+<input type="number" name="qtd_servico"><br>
 
 <!-- DATA  -->
 <label for="nome">Data da Venda:</label>
-<input type="date" name="data"><br>
+<input type="date" name="data_venda"><br>
 <!-- OPERADOR -->
 <label for="nome">Operador da venda:</label> 
 
-<select name="" id="">
+<select name="funcionario" id="">
 <option value="">---</option>
 <?php foreach($view_f as $valor_f){ ?>
-<option value="<?php  echo $valor_f["cod_Funcionario"]."<br/>" ?>"> <?php echo $valor_f["nome"]."<br/>"?> </option> 
+<option value="<?php  echo $valor_f["id_funcionario"]."<br/>" ?>"> <?php echo $valor_f["nome"]."<br/>"?> </option> 
 <?php } ?>
 </select><br>
 <input type="submit" name = "btnCad" value="cadastrar"/> 
