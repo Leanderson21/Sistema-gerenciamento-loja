@@ -6,9 +6,7 @@ $cadE = new Estoque();
       $exibir = $exibiP->querySelect(); 
 
 if (isset($_POST["btn-cad"] )) {
-      if ($cadE->validarVazio($_POST) == true){
-        echo "<script> alert('campo vazio');location.href='FormEstoque.php'; </script>";
-      }
+  
        if ($cadE->queryValidar($_POST) == 1){
           if  ($cadE->queryInsert($_POST) == "ok"){
             echo "<script> alert('Cadastro realizado com sucesso');location.href='FormEstoque.php'; </script>";

@@ -11,7 +11,8 @@ class Venda {
     private $qtd_produto;
     private $data_venda;
     private $totVenda;
-    private $buscar;
+    private $buscar_preco_produto;
+    private $buscar_preco_servico;
     private $inserir;
     private $funcionario;
 
@@ -19,7 +20,6 @@ class Venda {
 public function __construct(){
     $this->conn = new Conexao();
 }
-
 
 
 public function queryInsert($dados, $tot){
@@ -39,31 +39,44 @@ public function queryInsert($dados, $tot){
     $this->inserir->bindValue(":tot_venda", $this->totVenda);
     $this->inserir->bindValue(":id_funcionario", $this->funcionario);
     $this->inserir->execute();
-    var_dump($this->inserir);
+    
 }
-
-
 
 public function calcVenda($dados){
+    $this->servico = $dados["servico"];
+    $this->qtd_servico = $dados["qtd_servico"];
     $this->produto = $dados["produto"];
     $this->qtd_produto = $dados["qtd_produto"];     
-    $this->buscar = $this->conn->conectar()->prepare("SELECT produto.preco FROM produto WHERE produto.id_produto = :id_produto");
-    $this->buscar->bindValue(":id_produto", $this->produto);
-    $this->buscar->execute();
-    $linha = $this->buscar->fetchAll(PDO::FETCH_ASSOC);
-    return $linha[0]["preco"] * $this->qtd_produto;      
+    $this->buscar_preco_produto = $this->conn->conectar()->prepare("SELECT produto.preco FROM produto WHERE produto.id_produto = :id_produto");
+    $this->buscar_preco_produto->bindValue(":id_produto", $this->produto);
+    $this->buscar_preco_produto->execute();
+    $linha = $this->buscar_preco_produto->fetchAll(PDO::FETCH_ASSOC);
+    $linha[0]["preco"] * $this->qtd_produto;
+
+    //PREPARA APONTAR E VAMOS PARA GAMBIARRA....
+    
+    $this->buscar_preco_servico = $this->conn->conectar()->prepare("SELECT servico.preco FROM servico WHERE servico.id_servico = :id_servico");
+    $this->buscar_preco_servico->bindValue(":id_servico", $this->servico);
+    $this->buscar_preco_servico->execute();
+    $linha2 = $this->buscar_preco_servico->fetchAll(PDO::FETCH_ASSOC);
+    $linha2[0]["preco"] * $this->qtd_servico; 
+    return $linha + $linha2;
+
+}
+
+// Funcao para corrigir o problema da validação de campos DO ID_PRODUTO
+public function validarDados($dados){
+$this->produto = $dados["produto"];
+$this->qtd_produto = $dados["qtd_produto"]; 
+if($this->produto == "---" || $this->qtd_produto == ""){
+    return null;
+}else {
+    return true;
+}
 }
 
 
 
 
-
-
-
-
 }
-
-
-
-
 ?>

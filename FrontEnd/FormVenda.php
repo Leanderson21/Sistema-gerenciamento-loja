@@ -17,13 +17,16 @@ $prod_view = new Produto();
 // 
     $vender = new Venda();
     if(isset($_POST["btnCad"])){
-       $tot =  $vender->calcVenda($_POST);
-          $vender->queryInsert($_POST, $tot);
-    
-    }
+         if($vender->validarDados($_POST) == "true"){ 
+            $tot =  $vender->calcVenda($_POST);   
+         }else{
+             $tot = null;
+         }
+         $vender->queryInsert($_POST, $tot);
         
-
-
+       
+    }
+    
 ?>
 
 <!DOCTYPE html>

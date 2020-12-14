@@ -5,13 +5,7 @@ require_once("../config.php");
     $cadF = new Funcionario();
 // CHAMANDO OS POSTS PARA DENTRO DA CLASSE FUNCIONARIO
 if (isset($_POST["btn-cad"])){
-        if ($cadF->validarVazio($_POST) == false){
-            echo ("<script >
-                 window.alert('campo vazio');
-                        window.location.href='FormFuncionario.php';
-                                                    </script>");
-        }else {
-    if ($cadF->queryInsert($_POST) == 1){
+      if ($cadF->queryInsert($_POST) == 1){
         echo ("<script >
                  window.alert('Cadastro realizado com sucesso');
                         window.location.href='FormFuncionario.php';
@@ -23,7 +17,8 @@ if (isset($_POST["btn-cad"])){
                                                     </script>");
     }
 }
-}
+
+
 ?>
 
 <!DOCTYPE html>
