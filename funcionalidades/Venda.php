@@ -51,7 +51,7 @@ public function calcVenda($dados){
     $this->buscar_preco_produto->bindValue(":id_produto", $this->produto);
     $this->buscar_preco_produto->execute();
     $linha = $this->buscar_preco_produto->fetchAll(PDO::FETCH_ASSOC);
-    $linha[0]["preco"] * $this->qtd_produto;
+    $p = $linha[0]["preco"] * $this->qtd_produto;
 
     //PREPARA APONTAR E VAMOS PARA GAMBIARRA....
     
@@ -59,8 +59,11 @@ public function calcVenda($dados){
     $this->buscar_preco_servico->bindValue(":id_servico", $this->servico);
     $this->buscar_preco_servico->execute();
     $linha2 = $this->buscar_preco_servico->fetchAll(PDO::FETCH_ASSOC);
-    $linha2[0]["preco"] * $this->qtd_servico; 
-    return $linha + $linha2;
+    $p2 = $linha2[0]["preco"] * $this->qtd_servico; 
+    
+    return $p + $p2;
+    
+    
 
 }
 
