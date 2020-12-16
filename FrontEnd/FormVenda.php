@@ -1,4 +1,8 @@
 <?php 
+
+// GAMBIARRA 1(CRIAR UM INSERT SO PARA FORCAR O VALOR DO PRODUTO NULO E A QTD =0)
+// GAMBIARRA 2(CRIAR UM OPTION NO FORMULARIO QUE RECEBA OS VALORE NULL E 0)
+
 require_once("../config.php");
 
 // CHAMANDO A CLASSE PRODUTO
@@ -18,11 +22,13 @@ $prod_view = new Produto();
     $vender = new Venda();
     if(isset($_POST["btnCad"])){
          if($vender->validarDados($_POST) == "true"){ 
-            $tot =  $vender->calcVenda($_POST);   
+            $tot =  $vender->calcVenda($_POST) + $vender->calcVendaServico($_POST);   
          }else{
-             $tot = null;
+
+             $tot =  $vender->calcVendaServico($_POST); // aqui deveria pegar a funcao exclusiva para calcular serviço
          }
-         $vender->queryInsert($_POST, $tot);
+         $vender->queryInsert($_POST, $tot); 
+         
         
        
     }
@@ -44,7 +50,7 @@ $prod_view = new Produto();
 <label for="nome">Produto:</label>
 
 <select name="produto" id="">
-<option value="">---</option>  
+<option value="">----</option>   
     <?php foreach($view_p as $valor_p){ ?> 
     <option value="<?php echo $valor_p["id_produto"]."<br/>";?>"><?php echo $valor_p["nome"]."<br/>"; ?></option>
     <?php } ?>
@@ -68,11 +74,12 @@ $prod_view = new Produto();
 
 <!-- DATA  -->
 <label for="nome">Data da Venda:</label>
-<input type="date" name="data_venda"><br>
+<input type="date" name="data_venda" required><br>
+
 <!-- OPERADOR -->
 <label for="nome">Operador da venda:</label> 
 
-<select name="funcionario" id="">
+<select name="funcionario" id=""required>
 <option value="">---</option>
 <?php foreach($view_f as $valor_f){ ?>
 <option value="<?php  echo $valor_f["id_funcionario"]."<br/>" ?>"> <?php echo $valor_f["nome"]."<br/>"?> </option> 

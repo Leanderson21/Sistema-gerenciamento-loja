@@ -1,6 +1,6 @@
 <?php 
 
-
+// CLASSE QUE IRA REALIZAR TODAS AS FUNCIONALIDADES DA TELA DE VENDA
 
 class Venda {
 
@@ -23,9 +23,19 @@ public function __construct(){
 
 
 public function queryInsert($dados, $tot){
+if ($dados["produto"] == ""){
+    $this->produto = null;
+}else {
     $this->produto = $dados["produto"];
+}
+     
     $this->servico = $dados["servico"];
+if($dados["qtd_produto"] == ""){
+    $this->qtd_produto = 0;
+}else {
     $this->qtd_produto = $dados["qtd_produto"];
+}    
+    
     $this->qtd_servico = $dados["qtd_servico"];
     $this->data_venda = $dados["data_venda"];
     $this->totVenda = $tot;
@@ -42,44 +52,76 @@ public function queryInsert($dados, $tot){
     
 }
 
+
+// FUNÇÃO QUE IRÁ CALCULAR OS VALORES INSERIDOS NA VENDA DE PRODUTOS E SERVIÇOS
 public function calcVenda($dados){
-    $this->servico = $dados["servico"];
-    $this->qtd_servico = $dados["qtd_servico"];
+
     $this->produto = $dados["produto"];
-    $this->qtd_produto = $dados["qtd_produto"];     
+    $this->qtd_produto = $dados["qtd_produto"];                                                             // o problema ta aqui poque como o id do produto vem nulo ele fica sem referencia para buscar o preco
     $this->buscar_preco_produto = $this->conn->conectar()->prepare("SELECT produto.preco FROM produto WHERE produto.id_produto = :id_produto");
     $this->buscar_preco_produto->bindValue(":id_produto", $this->produto);
     $this->buscar_preco_produto->execute();
     $linha = $this->buscar_preco_produto->fetchAll(PDO::FETCH_ASSOC);
     $p = $linha[0]["preco"] * $this->qtd_produto;
-
-    //PREPARA APONTAR E VAMOS PARA GAMBIARRA....
     
+    
+    return $p;
+
+}
+
+//criando função para calcular total do serviço
+public function calcVendaServico($dados){
+
+    $this->servico = $dados["servico"];
+    $this->qtd_servico = $dados["qtd_servico"];
+
     $this->buscar_preco_servico = $this->conn->conectar()->prepare("SELECT servico.preco FROM servico WHERE servico.id_servico = :id_servico");
     $this->buscar_preco_servico->bindValue(":id_servico", $this->servico);
     $this->buscar_preco_servico->execute();
     $linha2 = $this->buscar_preco_servico->fetchAll(PDO::FETCH_ASSOC);
     $p2 = $linha2[0]["preco"] * $this->qtd_servico; 
-    
-    return $p + $p2;
-    
-    
 
+    return $p2;
 }
+
 
 // Funcao para corrigir o problema da validação de campos DO ID_PRODUTO
 public function validarDados($dados){
 $this->produto = $dados["produto"];
 $this->qtd_produto = $dados["qtd_produto"]; 
-if($this->produto == "---" || $this->qtd_produto == ""){
+$this->servico = $dados["servico"];
+$this->qtd_servico = $dados["qtd_servico"];
+if ($this->produto == "---" || $this->qtd_produto == ""){
     return null;
 }else {
     return true;
 }
 }
 
+  
+    public function getProduto(){
+        return $this->produto;
+    }
 
+ 
+    public function setProduto($produto){
+        $this->produto = $produto;
+    }
 
+    
+   
 
+  
+    public function getQtd_produto()
+    {
+        return $this->qtd_produto;
+    }
+
+ 
+    public function setQtd_produto($qtd_produto)
+    {
+        $this->qtd_produto = $qtd_produto;
+
+    }
 }
 ?>

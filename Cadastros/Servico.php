@@ -1,8 +1,9 @@
 <?php
 
+// CLASSE QUE IRÁ REALIZAR AS FUNCIONALIDADES DA TELA DE SERVICO DO SISTEMA
+
 class Servico {
 
-// ATRIBUTOS
     private $nome;
     private $desc;
     private $preco;
@@ -10,12 +11,10 @@ class Servico {
     private $inserir;
     private $validar;
 
-    //CHAMANDO OS POSTS PARA DENTRO DA CLASSE
     public function __construct(){
         $this->conn = new Conexao();
     }    
 
-// INSERINDO OS DADOS
 public function queryInsert($dado){
     $this->nome = $dado["nome"];
     $this->desc = $dado["descricao"];
@@ -31,7 +30,7 @@ public function queryInsert($dado){
     }
 
 }
-// VALIDANDO OS DADOS REPETIDOS
+// FUNÇÃO PARA VALIDAR OS DADOS REPETIDOS
     public function queryValidar($dado){
         $this->nome = $dado["nome"];
         $this->validar = $this->conn->conectar()->prepare("SELECT * FROM servico WHERE nome=:nome");
@@ -44,7 +43,7 @@ public function queryInsert($dado){
         }
 
 
-//VALIDAR CAMPO VAZIO 
+//FUNÇÃO PARA VALIDAR CAMPO VAZIO 
     public function validaVazio($dado){
         $this->nome = $dado["nome"];
         $this->desc = $dado["descricao"];
@@ -60,7 +59,7 @@ public function queryInsert($dado){
             }
   
     }
-    // PUXAR TODOS OS SERVIÇOS CADASTRADOS
+    
         public function querySelect(){
             $this->select = $this->conn->conectar()->prepare("SELECT * FROM servico");
             $this->select->execute();

@@ -6,15 +6,10 @@ $cadP = new Produto();
 // CHAMANDO OS POSTS PARA DENTRO DA CLASSE PRODUTO
 if (isset($_POST["btn-cad"])){  
     // VALIDADCÃO DE CAMPOS VAZIOS
-    if ($cadP->validarVazio($_POST) == null){
-        echo ("<script >
-                 window.alert('Campo Vazio!');
-                        window.location.href='FormProduto.php';
-                                                    </script>");
-    }else {
+    
     if ($cadP->validarQuery($_POST) == 1){
             if ($cadP->queryInsert($_POST) == "ok"){
-                        echo ("<script >
+                        echo ("<script>
                             window.alert('Cadastro realidado com Sucesso!');
                                 window.location.href='FormProduto.php';
                                                     </script>");
@@ -25,7 +20,7 @@ if (isset($_POST["btn-cad"])){
                         window.location.href='FormProduto.php';
                             </script>");  
 }
-}
+
 }
 ?>
 <!DOCTYPE html>
@@ -41,13 +36,13 @@ if (isset($_POST["btn-cad"])){
 <form action="" method="POST">
 
 <label for="nome">Nome:</label>
-<input type="text" name="nome"><br/>
+<input type="text" name="nome" required><br/>
 
 <label for="marca">Marca:</label>
-<input type="text" name="marca"><br>
+<input type="text" name="marca" required><br>
 
 <label for="preco">Preço:</label>
-<input type="text" name="preco"><br><br>
+<input type="text" name="preco" required><br><br>
 
 <input type="submit" name="btn-cad" value="enviar">
 </form>

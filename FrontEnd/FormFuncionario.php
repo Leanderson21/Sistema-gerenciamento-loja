@@ -32,7 +32,7 @@ if (isset($_POST["btn-cad"])){
     <h2>Cadastrar Funcionario</h2>
 <form action="" method="POST">
 <label for="nome">Nome:</label>
-<input type="text" name="nome">
+<input type="text" name="nome" required>
 <input type="submit" name="btn-cad"value="enviar">
 </form>
 

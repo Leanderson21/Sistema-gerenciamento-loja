@@ -44,13 +44,13 @@ $CadS = new Servico();
 <form action="" method="POST">
 
 <label for="nome">Nome:</label>
-<input type="text" name="nome"><br/>
+<input type="text" name="nome" required><br/>
 
 <label for="preco">Preço:</label>
-<input type="text" name="preco"><br>
+<input type="text" name="preco" required><br>
 
 <label for="descricao">descrição:</label>
-<input type="text" name="descricao"><br><br>
+<input type="text" name="descricao" required><br><br>
 
 <input type="submit" name = "btnCad" value="enviar"/>
 </form>
