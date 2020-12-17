@@ -2,26 +2,27 @@
 
 class Produto {
 
-// ATRIBUTOS
+
 private $nome;
 private $marca;
 private $preco;
 private $conn;
-private $inserir; // não criei getter and setter
-private $validar; // não criei getter and setter
+private $inserir; 
+private $validar; 
 
 
-// MÉTODO CONSTRUTOR 
+
 public function __construct(){
     $this->conn = new Conexao();
 }
 
-// INSERÇÃO DOS DADOS 
+
 public function queryInsert($dados){
     $this->nome = $dados["nome"];
     $this->preco = $dados["preco"];
     $this->marca = $dados["marca"];
-    $this->inserir = $this->conn->conectar()->prepare("INSERT INTO produto(nome,preco,marca) VALUES(:nome,:preco,:marca)");
+    $this->inserir = $this->conn->conectar()->prepare("INSERT INTO produto(nome,preco,marca) 
+    VALUES(:nome,:preco,:marca)");
     $this->inserir->bindValue(":nome", $this->nome);
     $this->inserir->bindValue(":preco", $this->preco);
     $this->inserir->bindValue(":marca", $this->marca);
@@ -32,11 +33,11 @@ public function queryInsert($dados){
     }
 
 }
+
 // VALIDAÇÃO DE DADOS REPETIDOS
 public function validarQuery($dados){
     $this->marca = $dados["marca"];
     $this->validar = $this->conn->conectar()->prepare("SELECT * FROM produto WHERE marca=:marca");
-
     $this->validar->bindValue(":marca", $this->marca);
     $this->validar->execute();
     if ($this->validar->rowCount() == 0){
@@ -63,9 +64,6 @@ public function validarVazio($dados){
 }
 
 
-
-
-//PUXAR TODOS OS PRODUTOS CADASTRADOS
 public function querySelect(){
     $this->select = $this->conn->conectar()->prepare("SELECT * FROM produto");
     $this->select->execute();

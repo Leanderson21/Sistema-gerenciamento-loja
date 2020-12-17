@@ -4,7 +4,7 @@ class Funcionario{
 
 private $nome;
 private $conn;
-private $inserir; // não criei getter and setter
+private $inserir; 
 
 public function __construct(){
     $this->conn = new Conexao();
@@ -28,8 +28,6 @@ public function querySelect(){
     return $linha;
 }
 
-
-
 public function validarVazio($dados){
     $this->nome = $dados["nome"];
   
@@ -40,20 +38,6 @@ public function validarVazio($dados){
         }
 }
 
-
-
-//GETTERS AND SETTERS
-public function getNome()
-{
-return $this->nome;
-}
-
-public function setNome($nome)
-{
-$this->nome = $nome;
-
-return $this;
-}
 }
 
 

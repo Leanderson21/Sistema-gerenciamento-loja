@@ -19,7 +19,8 @@ public function queryInsert($dado){
     $this->nome = $dado["nome"];
     $this->desc = $dado["descricao"];
     $this->preco = $dado["preco"];
-    $this->inserir = $this->conn->conectar()->prepare("INSERT INTO servico(nome,descricao,preco) VALUES(:nome,:descricao,:preco)");
+    $this->inserir = $this->conn->conectar()->prepare("INSERT INTO servico(nome,descricao,preco)
+    VALUES(:nome,:descricao,:preco)");
     $this->inserir->bindValue(":nome", $this->nome);
     $this->inserir->bindValue(":descricao", $this->desc);
     $this->inserir->bindValue(":preco", $this->preco);
@@ -66,88 +67,6 @@ public function queryInsert($dado){
             $linha = $this->select->fetchAll(PDO::FETCH_ASSOC);
             return $linha;
         }
-
-
-
-    /**
-     * Get the value of nome
-     */ 
-    public function getNome()
-    {
-        return $this->nome;
-    }
-
-    /**
-     * Set the value of nome
-     *
-     * @return  self
-     */ 
-    public function setNome($nome)
-    {
-        $this->nome = $nome;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of desc
-     */ 
-    public function getDesc()
-    {
-        return $this->desc;
-    }
-
-    /**
-     * Set the value of desc
-     *
-     * @return  self
-     */ 
-    public function setDesc($desc)
-    {
-        $this->desc = $desc;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of preco
-     */ 
-    public function getPreco()
-    {
-        return $this->preco;
-    }
-
-    /**
-     * Set the value of preco
-     *
-     * @return  self
-     */ 
-    public function setPreco($preco)
-    {
-        $this->preco = $preco;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of conn
-     */ 
-    public function getConn()
-    {
-        return $this->conn;
-    }
-
-    /**
-     * Set the value of conn
-     *
-     * @return  self
-     */ 
-    public function setConn($conn)
-    {
-        $this->conn = $conn;
-
-        return $this;
-    }
 
 
     }

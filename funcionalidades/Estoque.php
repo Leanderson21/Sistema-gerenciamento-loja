@@ -11,8 +11,6 @@ private $validar;
 private $cod_E;
 private $select;
 
-
-
 public function __construct(){
     $this->conn = new Conexao();
 }
@@ -20,7 +18,8 @@ public function __construct(){
 public function queryInsert($dados){
     $this->qtd = $dados["qtd"];
     $this->id_p = $dados["id_produto"];
-    $this->inserir = $this->conn->conectar()->prepare("INSERT INTO estoque(quantidade , id_produto) VALUES(:qtd, :id_p)");
+    $this->inserir = $this->conn->conectar()->prepare("INSERT INTO estoque(quantidade , id_produto) 
+    VALUES(:qtd, :id_p)");
     $this->inserir->bindValue(":qtd", $this->qtd);
     $this->inserir->bindValue(":id_p", $this->id_p);
     if ($this->inserir->execute()) {
@@ -32,12 +31,12 @@ public function queryInsert($dados){
 }
 
 public function querySelect(){
-    $this->select = $this->conn->conectar()->prepare("SELECT produto.nome, produto.id_produto FROM estoque JOIN produto");
+    $this->select = $this->conn->conectar()->prepare("SELECT produto.nome, produto.id_produto 
+    FROM estoque JOIN produto");
     $this->select->execute();
     $linha = $this->select->fetchAll(PDO::FETCH_ASSOC);
     return $linha;
 }
-
 
 public function validarVazio($dados){
     $this->qtd = $dados["qtd"];
@@ -51,8 +50,6 @@ public function validarVazio($dados){
         }
 }
 
-
-
 public function queryValidar($dados){
     $this->id_p = $dados["id_produto"];
     $this->validar = $this->conn->conectar()->prepare("SELECT * FROM estoque WHERE id_produto=:id_p");
@@ -62,27 +59,6 @@ public function queryValidar($dados){
         return 1;
 }else {
      return 2;
-}
-}
-
-/**
- * Get the value of conn
- */ 
-public function getConn()
-{
-return $this->conn;
-}
-
-/**
- * Set the value of conn
- *
- * @return  self
- */ 
-public function setConn($conn)
-{
-$this->conn = $conn;
-
-return $this;
 }
 }
 

@@ -23,12 +23,12 @@ public function __construct(){
 
 
 public function queryInsert($dados, $tot){
-if ($dados["produto"] == ""){
+
+if ($dados["produto"] == ""){  // VALIDAR ID PRODUTO PARA RECEBER VALOR NULL CASO O CAMPO NAO SEJA PREENCHIDO   
     $this->produto = null;
 }else {
     $this->produto = $dados["produto"];
-}
-     
+}   
     $this->servico = $dados["servico"];
 if($dados["qtd_produto"] == ""){
     $this->qtd_produto = 0;
@@ -40,7 +40,9 @@ if($dados["qtd_produto"] == ""){
     $this->data_venda = $dados["data_venda"];
     $this->totVenda = $tot;
     $this->funcionario = $dados["funcionario"];
-    $this->inserir = $this->conn->conectar()->prepare("INSERT INTO venda(id_produto, id_servico, qtd_produto, qtd_servico, data_venda, tot_venda , id_funcionario) VALUES(:id_produto, :id_servico,:qtd_produto, :qtd_servico, :data_venda, :tot_venda, :id_funcionario)");
+    $this->inserir = $this->conn->conectar()->prepare("INSERT INTO venda(id_produto, id_servico, qtd_produto, 
+    qtd_servico, data_venda, tot_venda , id_funcionario) VALUES(:id_produto, :id_servico,:qtd_produto, 
+    :qtd_servico, :data_venda, :tot_venda, :id_funcionario)");
     $this->inserir->bindValue(":id_produto", $this->produto);
     $this->inserir->bindValue(":id_servico", $this->servico);
     $this->inserir->bindValue(":qtd_produto", $this->qtd_produto);
@@ -52,21 +54,19 @@ if($dados["qtd_produto"] == ""){
     
 }
 
-
 // FUNÇÃO QUE IRÁ CALCULAR OS VALORES INSERIDOS NA VENDA DE PRODUTOS E SERVIÇOS
 public function calcVenda($dados){
 
     $this->produto = $dados["produto"];
-    $this->qtd_produto = $dados["qtd_produto"];                                                             // o problema ta aqui poque como o id do produto vem nulo ele fica sem referencia para buscar o preco
-    $this->buscar_preco_produto = $this->conn->conectar()->prepare("SELECT produto.preco FROM produto WHERE produto.id_produto = :id_produto");
+    $this->qtd_produto = $dados["qtd_produto"];                   
+    $this->buscar_preco_produto = $this->conn->conectar()->prepare("SELECT produto.preco FROM produto 
+    WHERE produto.id_produto = :id_produto");
     $this->buscar_preco_produto->bindValue(":id_produto", $this->produto);
     $this->buscar_preco_produto->execute();
     $linha = $this->buscar_preco_produto->fetchAll(PDO::FETCH_ASSOC);
     $p = $linha[0]["preco"] * $this->qtd_produto;
     
-    
     return $p;
-
 }
 
 //criando função para calcular total do serviço
@@ -74,8 +74,8 @@ public function calcVendaServico($dados){
 
     $this->servico = $dados["servico"];
     $this->qtd_servico = $dados["qtd_servico"];
-
-    $this->buscar_preco_servico = $this->conn->conectar()->prepare("SELECT servico.preco FROM servico WHERE servico.id_servico = :id_servico");
+    $this->buscar_preco_servico = $this->conn->conectar()->prepare("SELECT servico.preco FROM servico WHERE 
+    servico.id_servico = :id_servico");
     $this->buscar_preco_servico->bindValue(":id_servico", $this->servico);
     $this->buscar_preco_servico->execute();
     $linha2 = $this->buscar_preco_servico->fetchAll(PDO::FETCH_ASSOC);
@@ -87,15 +87,16 @@ public function calcVendaServico($dados){
 
 // Funcao para corrigir o problema da validação de campos DO ID_PRODUTO
 public function validarDados($dados){
-$this->produto = $dados["produto"];
-$this->qtd_produto = $dados["qtd_produto"]; 
-$this->servico = $dados["servico"];
-$this->qtd_servico = $dados["qtd_servico"];
-if ($this->produto == "---" || $this->qtd_produto == ""){
-    return null;
-}else {
-    return true;
-}
+
+    $this->produto = $dados["produto"];
+    $this->qtd_produto = $dados["qtd_produto"]; 
+    $this->servico = $dados["servico"];
+    $this->qtd_servico = $dados["qtd_servico"];
+    if ($this->produto == "---" || $this->qtd_produto == ""){
+        return null;
+    }else {
+        return true;
+    }
 }
 
   
@@ -108,10 +109,7 @@ if ($this->produto == "---" || $this->qtd_produto == ""){
         $this->produto = $produto;
     }
 
-    
-   
 
-  
     public function getQtd_produto()
     {
         return $this->qtd_produto;
