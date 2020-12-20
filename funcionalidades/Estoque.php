@@ -61,6 +61,6 @@ public function queryValidar($dados){
      return 2;
 }
 }
-
+}
 
 ?>

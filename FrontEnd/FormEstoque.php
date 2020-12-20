@@ -1,10 +1,10 @@
 <?php
 require_once("../config.php"); 
 
-//-----------------------------
+
 $cadE = new Estoque();
   $exibiP = new Produto();
-//------------------------------
+
       $exibir = $exibiP->querySelect(); 
         if (isset($_POST["btn-cad"] )) {
             if ($cadE->queryValidar($_POST) == 1){

@@ -1,5 +1,5 @@
 <?php
-
+// CLASSE QUE REALIZA O CADASTRO DE FUNCIONARIOS
 class Funcionario{
 
 private $nome;
@@ -27,7 +27,7 @@ public function querySelect(){
     $linha = $this->select->fetchAll(PDO::FETCH_ASSOC);
     return $linha;
 }
-
+// VERIFICA SE EXISTEM CAMPOS VAZIOS
 public function validarVazio($dados){
     $this->nome = $dados["nome"];
   

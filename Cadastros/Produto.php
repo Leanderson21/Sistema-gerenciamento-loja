@@ -1,7 +1,6 @@
 <?php
-
+//CLASSE QUE REALIZA O CADASTRO DE PRODUTOS
 class Produto {
-
 
 private $nome;
 private $marca;
@@ -10,12 +9,9 @@ private $conn;
 private $inserir; 
 private $validar; 
 
-
-
 public function __construct(){
     $this->conn = new Conexao();
 }
-
 
 public function queryInsert($dados){
     $this->nome = $dados["nome"];
@@ -47,7 +43,6 @@ public function validarQuery($dados){
     }
 }
 
-
 public function validarVazio($dados){
     $this->nome = $dados["nome"];
     $this->preco = $dados["preco"];
@@ -62,7 +57,6 @@ public function validarVazio($dados){
             return true;
         }
 }
-
 
 public function querySelect(){
     $this->select = $this->conn->conectar()->prepare("SELECT * FROM produto");

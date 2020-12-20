@@ -28,7 +28,7 @@ $prod_view = new Produto();
              $tot =  $vender->calcVendaServico($_POST); // aqui deveria pegar a funcao exclusiva para calcular serviço
          }
          $vender->queryInsert($_POST, $tot); 
-         
+         $vender->atualizarEstoque($_POST);
         
        
     }

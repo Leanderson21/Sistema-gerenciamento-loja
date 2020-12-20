@@ -1,6 +1,7 @@
 <?php
 
 //AUTOLOADS
+
 // ACESSANDO A PASTA DO BANCO DE DADOS
 spl_autoload_register(function($nameClass){
     $dir = "db";
