@@ -13,7 +13,8 @@ $cadE = new Estoque();
                     location.href='FormEstoque.php'; </script>";
                   }
                   }else{
-                    echo "<script> alert('informacoes repetidas');location.href='FormEstoque.php'; </script>";
+                    $cadE->AtualizarRepetidos($_POST);
+                    echo "<script> alert('Dados Atualizados');location.href='FormEstoque.php'; </script>";
                   }
                 }    
 ?>

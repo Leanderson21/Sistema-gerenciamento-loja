@@ -25,17 +25,20 @@ public function __construct(){
 
 
 public function atualizarEstoque($dados){
-$this->produto = $dados["produto"];
-$this->busca_estoque = $this->conn->conectar()->prepare("SELECT quantidade FROM estoque WHERE id_produto = :id_produto");
-$this->busca_estoque->bindValue(":id_produto", $this->produto);
-$this->busca_estoque->execute();
-$linha = $this->busca_estoque->fetchAll(PDO::FETCH_ASSOC);
-$this->qtd_produto = ($linha[0]["quantidade"] - $dados["qtd_produto"]);
-$this->atualizar = $this->conn->conectar()->prepare("UPDATE estoque SET quantidade=:qtd_produto WHERE id_produto = :id_produto");
-$this->atualizar->bindValue(":id_produto", $this->produto);
-$this->atualizar->bindValue(":qtd_produto", $this->qtd_produto);
-$this->atualizar->execute();
-var_dump($linha);
+
+    $this->produto = $dados["produto"];
+    $this->busca_estoque = $this->conn->conectar()->prepare("SELECT quantidade FROM estoque WHERE 
+    id_produto = :id_produto");
+    $this->busca_estoque->bindValue(":id_produto", $this->produto);
+    $this->busca_estoque->execute();
+    $linha = $this->busca_estoque->fetchAll(PDO::FETCH_ASSOC);
+    $this->qtd_produto = ($linha[0]["quantidade"] - $dados["qtd_produto"]);
+    $this->atualizar = $this->conn->conectar()->prepare("UPDATE estoque SET quantidade=:qtd_produto WHERE 
+    id_produto = :id_produto");
+    $this->atualizar->bindValue(":id_produto", $this->produto);
+    $this->atualizar->bindValue(":qtd_produto", $this->qtd_produto);
+    $this->atualizar->execute();
+
 }
 
 public function queryInsert($dados, $tot){
@@ -80,9 +83,9 @@ public function calcVenda($dados){
     $this->buscar_preco_produto->bindValue(":id_produto", $this->produto);
     $this->buscar_preco_produto->execute();
     $linha = $this->buscar_preco_produto->fetchAll(PDO::FETCH_ASSOC);
-    $p = $linha[0]["preco"] * $this->qtd_produto;
+    $valor_total_produto = $linha[0]["preco"] * $this->qtd_produto;
     
-    return $p;
+    return $valor_total_produto;
 }
 
 //criando função para calcular total do serviço
@@ -94,10 +97,10 @@ public function calcVendaServico($dados){
     servico.id_servico = :id_servico");
     $this->buscar_preco_servico->bindValue(":id_servico", $this->servico);
     $this->buscar_preco_servico->execute();
-    $linha2 = $this->buscar_preco_servico->fetchAll(PDO::FETCH_ASSOC);
-    $p2 = $linha2[0]["preco"] * $this->qtd_servico; 
+    $listar = $this->buscar_preco_servico->fetchAll(PDO::FETCH_ASSOC);
+    $valor_total_servico = $listar[0]["preco"] * $this->qtd_servico; 
 
-    return $p2;
+    return $valor_total_servico;
 }
 
 
