@@ -26,19 +26,19 @@ public function __construct(){
 
 public function atualizarEstoque($dados){
 
-    $this->produto = $dados["produto"];
+    $this->produto = $dados["produto"];  
     $this->busca_estoque = $this->conn->conectar()->prepare("SELECT quantidade FROM estoque WHERE 
     id_produto = :id_produto");
     $this->busca_estoque->bindValue(":id_produto", $this->produto);
     $this->busca_estoque->execute();
     $linha = $this->busca_estoque->fetchAll(PDO::FETCH_ASSOC);
-    $this->qtd_produto = ($linha[0]["quantidade"] - $dados["qtd_produto"]);
+    $this->qtd_produto = ((int)$linha[0]["quantidade"] - (int)$dados["qtd_produto"]);
     $this->atualizar = $this->conn->conectar()->prepare("UPDATE estoque SET quantidade=:qtd_produto WHERE 
     id_produto = :id_produto");
     $this->atualizar->bindValue(":id_produto", $this->produto);
     $this->atualizar->bindValue(":qtd_produto", $this->qtd_produto);
     $this->atualizar->execute();
-
+    
 }
 
 public function queryInsert($dados, $tot){
@@ -48,12 +48,25 @@ if ($dados["produto"] == ""){  // VALIDAR ID PRODUTO PARA RECEBER VALOR NULL CAS
 }else {
     $this->produto = $dados["produto"];
 }   
-    $this->servico = $dados["servico"];
 if($dados["qtd_produto"] == ""){
     $this->qtd_produto = 0;
 }else {
     $this->qtd_produto = $dados["qtd_produto"];
 }    
+
+if ($dados["servico"] == ""){ 
+    $this->servico = null;
+}else {
+    $this->servico = $dados["servico"];
+}   
+if($dados["qtd_servico"] == ""){
+    $this->qtd_servico = 0;
+}else {
+    $this->qtd_servico = $dados["qtd_servico"];
+}    
+
+
+
     
     $this->qtd_servico = $dados["qtd_servico"];
     $this->data_venda = $dados["data_venda"];
@@ -99,8 +112,9 @@ public function calcVendaServico($dados){
     $this->buscar_preco_servico->execute();
     $listar = $this->buscar_preco_servico->fetchAll(PDO::FETCH_ASSOC);
     $valor_total_servico = $listar[0]["preco"] * $this->qtd_servico; 
-
+    
     return $valor_total_servico;
+    
 }
 
 

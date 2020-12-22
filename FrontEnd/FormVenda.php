@@ -1,34 +1,30 @@
 <?php 
 
-// GAMBIARRA 1(CRIAR UM INSERT SO PARA FORCAR O VALOR DO PRODUTO NULO E A QTD =0)
-// GAMBIARRA 2(CRIAR UM OPTION NO FORMULARIO QUE RECEBA OS VALORE NULL E 0)
-
 require_once("../config.php");
 
-// CHAMANDO A CLASSE PRODUTO
+// INSTANCIANDO AS CLASSES
 $prod_view = new Produto();
     $view_p = $prod_view->querySelect();
 
-// CHAMANDO A CLASSE SERVICO
   $serv_view = new Servico();
     $view_s = $serv_view->querySelect();
 
-//CHAMANDO A CLASSE FUNCIONARIO
     $func_view = new Funcionario();
         $view_f = $func_view->querySelect();
 
+            $vender = new Venda();
 
-// 
-    $vender = new Venda();
     if(isset($_POST["btnCad"])){
-         if($vender->validarDados($_POST) == "true"){ 
+         if($vender->validarDados($_POST) == "true"){  
             $tot =  $vender->calcVenda($_POST) + $vender->calcVendaServico($_POST);   
+            $vender->atualizarEstoque($_POST);
          }else{
 
-             $tot =  $vender->calcVendaServico($_POST); // aqui deveria pegar a funcao exclusiva para calcular serviço
+             $tot =  $vender->calcVendaServico($_POST); 
          }
          $vender->queryInsert($_POST, $tot); 
-         $vender->atualizarEstoque($_POST);
+
+        
         
        
     }
