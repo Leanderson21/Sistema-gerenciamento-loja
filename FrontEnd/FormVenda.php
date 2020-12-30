@@ -13,20 +13,18 @@ $prod_view = new Produto();
         $view_f = $func_view->querySelect();
 
             $vender = new Venda();
-
+            
     if(isset($_POST["btnCad"])){
          if($vender->validarDados($_POST) == "true"){  
             $tot =  $vender->calcVenda($_POST) + $vender->calcVendaServico($_POST);   
             $vender->atualizarEstoque($_POST);
+                
          }else{
-
-             $tot =  $vender->calcVendaServico($_POST); 
+             $tot =  $vender->calcVendaServico($_POST);
+             
          }
          $vender->queryInsert($_POST, $tot); 
-
-        
-        
-       
+         header("location:FormRelatorioVenda.php");
     }
     
 ?>

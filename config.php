@@ -36,4 +36,29 @@ spl_autoload_register(function($nameClass){
     }
 });
 
+
+spl_autoload_register(function($nameClass){
+    $dir = "funcionalidades";
+    $file = $dir . DIRECTORY_SEPARATOR . $nameClass . ".php";
+    if (file_exists($file)){
+        require_once($file);
+    }
+});
+
+spl_autoload_register(function($nameClass){
+    $dir = "Cadastros";
+    $file = $dir . DIRECTORY_SEPARATOR . $nameClass . ".php";
+    if (file_exists($file)){
+        require_once($file);
+    }
+});
+
+spl_autoload_register(function($nameClass){
+    $dir = "db";
+    $file = $dir . DIRECTORY_SEPARATOR . $nameClass . ".php";
+    if (file_exists($file)){
+        require_once($file);
+    }
+});
+
 ?>

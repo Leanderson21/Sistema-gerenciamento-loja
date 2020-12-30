@@ -37,7 +37,7 @@ $cadE = new Estoque();
       <select name="id_produto" id="">
           <option value="">---</option>     
       <?php foreach($exibir as $valor){ ?> <!--chamando a variavel com o metodo para listar os produtos -->
-              <option value=" <?php echo $valor["id_produto"]."<br/>"; ?>"><?php echo $valor["nome"]."<br/>";?>
+              <option value=" <?php echo $valor["id_produto"]."<br/>"; ?>"><?php echo $valor["nome"]."(". $valor["marca"].")"."<br/>";?>
               </option> 
       <?php } ?>
       </select>

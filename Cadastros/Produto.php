@@ -65,6 +65,10 @@ public function querySelect(){
     return $linha;
 }
 
+
+
+
+
 //GETTER AND SETTER
 public function getNome()
     {

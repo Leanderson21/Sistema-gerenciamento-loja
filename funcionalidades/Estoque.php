@@ -53,7 +53,7 @@ public function validarVazio($dados){
 }
 
 public function AtualizarRepetidos($dados){
-
+    
     $this->id_p = $dados["id_produto"];
     $this->busca = $this->conn->conectar()->prepare("SELECT quantidade FROM estoque WHERE id_produto = 
     :id_produto");

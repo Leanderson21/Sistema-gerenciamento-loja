@@ -17,6 +17,7 @@ class Venda {
     private $funcionario;
     private $atualizar;
     private $busca_estoque;
+    private $buscar_relatorio;
 
 
 public function __construct(){
@@ -53,7 +54,6 @@ if($dados["qtd_produto"] == ""){
 }else {
     $this->qtd_produto = $dados["qtd_produto"];
 }    
-
 if ($dados["servico"] == ""){ 
     $this->servico = null;
 }else {
@@ -65,9 +65,6 @@ if($dados["qtd_servico"] == ""){
     $this->qtd_servico = $dados["qtd_servico"];
 }    
 
-
-
-    
     $this->qtd_servico = $dados["qtd_servico"];
     $this->data_venda = $dados["data_venda"];
     $this->totVenda = $tot;
@@ -120,7 +117,6 @@ public function calcVendaServico($dados){
 
 // Funcao para corrigir o problema da validação de campos DO ID_PRODUTO
 public function validarDados($dados){
-
     $this->produto = $dados["produto"];
     $this->qtd_produto = $dados["qtd_produto"]; 
     $this->servico = $dados["servico"];
@@ -133,6 +129,25 @@ public function validarDados($dados){
 }
 
   
+public function relatorioVenda(){
+
+$buscar_id = $this->conn->conectar()->prepare("SELECT MAX(id_venda) FROM venda"); // buscando o maior id da tablea venda
+$buscar_id->execute();
+$linha = $buscar_id->fetchAll(PDO::FETCH_ASSOC);
+
+$this->buscar_relatorio = $this->conn->conectar()->prepare("SELECT produto.nome as p_nome, servico.nome as s_nome, venda.qtd_produto, venda.qtd_servico, venda.tot_venda  FROM venda JOIN produto ON  produto.id_produto = venda.id_produto JOIN servico ON  servico.id_servico = venda.id_servico WHERE id_venda = :id_venda ");
+$this->buscar_relatorio->bindValue(":id_venda", $linha[0]["MAX(id_venda)"]);
+$this->buscar_relatorio->execute();
+
+$dados_venda = $this->buscar_relatorio->fetchAll(PDO::FETCH_ASSOC);
+
+return $dados_venda;
+
+}
+
+
+
+// GETTERS AND SETTERS
     public function getProduto(){
         return $this->produto;
     }
