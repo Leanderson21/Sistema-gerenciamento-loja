@@ -3,7 +3,7 @@
 require_once("../config.php");
 
 $exibir_relatorio = new Venda();
-$lista = $exibir_relatorio->relatorioVenda();
+$lista = $exibir_relatorio->ordemServico();
 
 
 ?>
@@ -42,6 +42,8 @@ $lista = $exibir_relatorio->relatorioVenda();
 <?php } ?> 
 </tr>
 </table>
+
+
 
 </body>
 

@@ -13,20 +13,22 @@ $prod_view = new Produto();
         $view_f = $func_view->querySelect();
 
             $vender = new Venda();
-            
+                    $d = new Venda();
     if(isset($_POST["btnCad"])){
-         if($vender->validarDados($_POST) == "true"){  
-            $tot =  $vender->calcVenda($_POST) + $vender->calcVendaServico($_POST);   
+            $tot =  $vender->calcVenda($_POST); 
             $vender->atualizarEstoque($_POST);
                 
-         }else{
-             $tot =  $vender->calcVendaServico($_POST);
-             
-         }
-         $vender->queryInsert($_POST, $tot); 
-         header("location:FormRelatorioVenda.php");
-    }
-    
+            $vender->queryInsert($_POST, $tot);
+          
+            
+               $li =  $d->dadosrelatorio($_POST);
+               $teste = 0;
+                foreach($li as $listar){
+                    $teste += $listar["tot_venda"];
+                }
+                echo $teste;
+                
+            }
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +70,7 @@ $prod_view = new Produto();
 
 <!-- DATA  -->
 <label for="nome">Data da Venda:</label>
-<input type="date" name="data_venda" required><br>
+<input type="date" name="data_venda" default-value="0" required><br>
 
 <!-- OPERADOR -->
 <label for="nome">Operador da venda:</label> 
@@ -85,12 +87,4 @@ $prod_view = new Produto();
 
 </body>
 </html>
-
-
-
-
-
-
-
-
 
