@@ -2,18 +2,18 @@
 require_once("../config.php"); 
 
 
-$cadE = new Estoque();
+$cadastrando = new Estoque();
   $exibiP = new Produto();
 
-      $exibir = $exibiP->querySelect(); 
-        if (isset($_POST["btn-cad"] )) {
-            if ($cadE->queryValidar($_POST) == 1){
-                if  ($cadE->queryInsert($_POST) == "ok"){
+      $exibir = $exibiP->buscar_produtos(); 
+        if(isset($_POST["btn-cad"] )) {
+            if($cadastrando->validar_cadastro_repetido($_POST) == 1){
+                if($cadastrando->cadastrar_estoque($_POST) == "ok"){
                     echo "<script> alert('Cadastro realizado com sucesso');
                     location.href='FormEstoque.php'; </script>";
                   }
                   }else{
-                    $cadE->AtualizarRepetidos($_POST);
+                    $cadastrando->atualizar_Estoque($_POST);
                     echo "<script> alert('Dados Atualizados');location.href='FormEstoque.php'; </script>";
                   }
                 }    

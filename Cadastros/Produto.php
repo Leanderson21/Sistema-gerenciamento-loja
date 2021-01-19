@@ -7,7 +7,8 @@ private $marca;
 private $preco;
 private $conn;
 private $inserir; 
-private $validar; 
+private $validar;
+private $buscar; 
 
 public function __construct(){
     $this->conn = new Conexao();
@@ -58,11 +59,11 @@ public function validarVazio($dados){
         }
 }
 
-public function querySelect(){
-    $this->select = $this->conn->conectar()->prepare("SELECT * FROM produto");
-    $this->select->execute();
-    $linha = $this->select->fetchAll(PDO::FETCH_ASSOC);
-    return $linha;
+public function buscar_produtos(){
+    $this->buscar = $this->conn->conectar()->prepare("SELECT * FROM produto");
+    $this->buscar->execute();
+    $listar_produtos = $this->buscar->fetchAll(PDO::FETCH_ASSOC);
+    return $listar_produtos;
 }
 
 

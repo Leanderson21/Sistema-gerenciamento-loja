@@ -5,21 +5,22 @@
 class Venda {
 
     private $conn;
+    private $inserir;
+    private $atualizar;
+    private $buscar;
+    private $funcionario;
     private $produto;
     private $servico;
     private $qtd_servico;
     private $qtd_produto;
-    private $data_venda;
-    private $totVenda;
     private $buscar_preco_produto;
     private $buscar_preco_servico;
-    private $inserir;
-    private $funcionario;
-    private $atualizar;
     private $busca_estoque;
     private $buscar_relatorio;
+    private $totVenda;
     private $valor_total_servico;
     private $valor_total_produto;
+    private $data_venda;
     private $data_1;
     private $data_2;
 
@@ -28,7 +29,7 @@ public function __construct(){
     $this->conn = new Conexao();
 }
 
-public function atualizarEstoque($dados){
+public function atualizar_Estoque($dados){
 
     $this->produto = $dados["produto"];  
     $this->busca_estoque = $this->conn->conectar()->prepare("SELECT quantidade FROM estoque WHERE 
@@ -46,8 +47,7 @@ public function atualizarEstoque($dados){
     }
 }
 
-// INSERINDO OS DADOS NA TABELA  VENDA
-public function queryInsert($dados, $tot){
+public function inserir_dados_venda($dados, $tot){
 
 if ($dados["produto"] == ""){  // VALIDAR ID PRODUTO PARA RECEBER VALOR NULL CASO O CAMPO NAO SEJA PREENCHIDO   
     $this->produto = null;
@@ -92,7 +92,7 @@ if($dados["qtd_servico"] == ""){
 }
 
 // FUNÇÃO QUE IRÁ CALCULAR OS VALORES INSERIDOS NA VENDA DE PRODUTOS E SERVIÇOS
-public function calcVenda($dados){
+public function calcular_Venda($dados){
 
     $this->servico = $dados["servico"];
     $this->qtd_servico = $dados["qtd_servico"];
@@ -116,20 +116,6 @@ public function calcVenda($dados){
     $this->valor_total_produto = $linha[0]["preco"] * $this->qtd_produto;
     }
     return $this->valor_total_servico + $this->valor_total_produto;
-}
-
-//FUNÇÃO PARA CALCULAR VALOR TOTAL DOS SERVIÇOS
-public function calcVendaServico($dados){
-    $this->servico = $dados["servico"];
-    $this->qtd_servico = $dados["qtd_servico"];
-    $this->buscar_preco_servico = $this->conn->conectar()->prepare("SELECT servico.preco FROM servico WHERE 
-    servico.id_servico = :id_servico");
-    $this->buscar_preco_servico->bindValue(":id_servico", $this->servico);
-    $this->buscar_preco_servico->execute();
-    $listar = $this->buscar_preco_servico->fetchAll(PDO::FETCH_ASSOC);
-    $valor_total_servico = $listar[0]["preco"] * $this->qtd_servico; 
-
-    return $valor_total_servico;    
 }
 
 
@@ -161,7 +147,38 @@ public function ordemServico(){
 }
 
 
-public function dadosrelatorio($dados){
+public function produto_mais_vendido($dados){
+    $this->data_1 = $dados["data1"];
+    $this->data_2 = $dados["data2"];
+    $busca = $this->conn->conectar()->prepare("SELECT produto.nome, SUM(venda.qtd_produto) AS total_produto 
+    FROM venda JOIN produto ON  produto.id_produto = venda.id_produto WHERE data_venda BETWEEN :data1 and :data2
+    GROUP BY venda.id_produto");
+    $busca->bindValue(":data1", $this->data_1);
+    $busca->bindValue(":data2", $this->data_2);
+    $busca->execute();
+
+    $exibir = $busca->fetchAll(PDO::FETCH_ASSOC);
+        return $exibir;
+}
+
+
+public function servicos_mais_realizados($dados){
+    $this->data_1 = $dados["data1"];
+    $this->data_2 = $dados["data2"];
+    $busca = $this->conn->conectar()->prepare("SELECT servico.nome, SUM(venda.qtd_servico) AS total_servico 
+    FROM venda JOIN servico ON  servico.id_servico = venda.id_servico WHERE data_venda BETWEEN :data1 and :data2
+    GROUP BY venda.id_servico");
+    $busca->bindValue(":data1", $this->data_1);
+    $busca->bindValue(":data2", $this->data_2);
+    $busca->execute();
+
+    $exibir = $busca->fetchAll(PDO::FETCH_ASSOC);
+        return $exibir;
+
+}
+
+
+public function total_de_vendas($dados){
 
     $this->data_1 = $dados["data1"];
     $this->data_2 = $dados["data2"];
@@ -170,7 +187,7 @@ public function dadosrelatorio($dados){
     $d->bindValue(":data2", $this->data_2);
     $d->execute();
     $linha = $d->fetchAll(PDO::FETCH_ASSOC);
-      return $linha;  
+    return $linha;  
     
 }
 
@@ -184,18 +201,32 @@ $this->qtd_servico = $dados["qtd_servico"];
 $this->data_venda = $dados["data_venda"];
 $this->funcionario = $dados["funcionario"];
 
-if (  $this->produto == "----" ){
-
-    return false;
-}else {
-    return true;
+    if ($this->produto == "----"){
+        return false;
+        }else{
+        return true;
+        }
 }
 
-
-
 }
 
+//FUNÇÃO PARA CALCULAR VALOR TOTAL DOS SERVIÇOS
+/*public function calcVendaServico($dados){
 
+    $this->servico = $dados["servico"];
+    $this->qtd_servico = $dados["qtd_servico"];
+    $this->buscar_preco_servico = $this->conn->conectar()->prepare("SELECT servico.preco FROM servico WHERE 
+    servico.id_servico = :id_servico");
+    $this->buscar_preco_servico->bindValue(":id_servico", $this->servico);
+    $this->buscar_preco_servico->execute();
+    $listar = $this->buscar_preco_servico->fetchAll(PDO::FETCH_ASSOC);
+    $valor_total_servico = $listar[0]["preco"] * $this->qtd_servico; 
 
+    return $valor_total_servico;    
 }
+*/
+
+
+
+
 ?>
