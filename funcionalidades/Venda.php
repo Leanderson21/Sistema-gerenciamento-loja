@@ -5,23 +5,23 @@
 class Venda {
 
     private $conn;
-    private $inserir;
-    private $atualizar;
-    private $buscar;
-    private $funcionario;
-    private $produto;
-    private $servico;
-    private $qtd_servico;
-    private $qtd_produto;
-    private $buscar_preco_produto;
-    private $buscar_preco_servico;
-    private $busca_estoque;
-    private $buscar_relatorio;
-    private $totVenda;
-    private $valor_total_servico;
-    private $valor_total_produto;
-    private $data_venda;
-    private $data_1;
+        private $inserir;
+            private $atualizar;
+                private $buscar;
+                    private $funcionario;
+                        private $produto;
+                            private $servico;
+                                private $qtd_servico;
+                                    private $qtd_produto;
+                                        private $buscar_preco_produto;
+                                        private $buscar_preco_servico;
+                                    private $busca_estoque;
+                                private $buscar_relatorio;
+                            private $totVenda;
+                        private $valor_total_servico;
+                    private $valor_total_produto;
+                private $data_venda;
+            private $data_1;
     private $data_2;
 
 
@@ -44,32 +44,32 @@ public function atualizar_Estoque($dados){
     $this->atualizar->bindValue(":id_produto", $this->produto);
     $this->atualizar->bindValue(":qtd_produto", $this->qtd_produto);
     $this->atualizar->execute();
-    }
+}
 }
 
 public function inserir_dados_venda($dados, $tot){
 
-if ($dados["produto"] == ""){  // VALIDAR ID PRODUTO PARA RECEBER VALOR NULL CASO O CAMPO NAO SEJA PREENCHIDO   
-    $this->produto = null;
-}else {
+if($dados["produto"] == ""){  // VALIDAR ID PRODUTO PARA RECEBER VALOR NULL CASO O CAMPO NAO SEJA PREENCHIDO   
+$this->produto = null;
+    }else{
     $this->produto = $dados["produto"];
-}   
-if($dados["qtd_produto"] == ""){
-    $this->qtd_produto = 0;
-}else {
-    $this->qtd_produto = $dados["qtd_produto"];
-}    
-if ($dados["servico"] == ""){ 
-    $this->servico = null;
-}else {
-    $this->servico = $dados["servico"];
-}   
-if($dados["qtd_servico"] == ""){
-    $this->qtd_servico = 0;
-}else {
-    $this->qtd_servico = $dados["qtd_servico"];
-}    
-
+    }   
+    if($dados["qtd_produto"] == ""){
+        $this->qtd_produto = 0;
+        }else {
+        $this->qtd_produto = $dados["qtd_produto"];
+        }    
+        if ($dados["servico"] == ""){ 
+        $this->servico = null;
+            }else {
+            $this->servico = $dados["servico"];
+            }   
+            if($dados["qtd_servico"] == ""){
+            $this->qtd_servico = 0;
+                }else {
+                $this->qtd_servico = $dados["qtd_servico"];
+                }    
+                
     $this->qtd_servico = $dados["qtd_servico"];
     $this->data_venda = $dados["data_venda"];
     $this->totVenda = $tot;
@@ -84,11 +84,13 @@ if($dados["qtd_servico"] == ""){
     $this->inserir->bindValue(":data_venda", $this->data_venda);
     $this->inserir->bindValue(":tot_venda", $this->totVenda);
     $this->inserir->bindValue(":id_funcionario", $this->funcionario);
-    if($this->inserir->execute()){
-        return 1;
-    }else {
-        return 0;
-    }
+
+if($this->inserir->execute()){
+    return 1;
+}else {
+    return 0;
+}
+
 }
 
 // FUNÇÃO QUE IRÁ CALCULAR OS VALORES INSERIDOS NA VENDA DE PRODUTOS E SERVIÇOS

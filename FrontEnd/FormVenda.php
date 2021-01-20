@@ -1,22 +1,20 @@
 <?php 
 require_once("../config.php");
 
-$prod_view = new Produto();
-    $view_p = $prod_view->buscar_produtos();
+        $prod_view = new Produto();
+             $serv_view = new Servico();
+                $func_view = new Funcionario();
+                    $vender = new Venda();
 
-  $serv_view = new Servico();
-    $view_s = $serv_view->querySelect();
-
-    $func_view = new Funcionario();
+                $view_p = $prod_view->buscar_produtos();
+            $view_s = $serv_view->querySelect();
         $view_f = $func_view->querySelect();
-            $vender = new Venda();
-                    $d = new Venda();
-
-    if(isset($_POST["btnCad"])){
+                
+        if(isset($_POST["btnCad"])){
             $tot =  $vender->calcular_Venda($_POST); 
-            $vender->atualizar_Estoque($_POST);       
-            $vender->inserir_dados_venda($_POST, $tot);
-            }
+                $vender->atualizar_Estoque($_POST);       
+                    $vender->inserir_dados_venda($_POST, $tot);
+        }
 ?>
 
 <!DOCTYPE html>
@@ -45,34 +43,32 @@ $prod_view = new Produto();
 
 <!-- SERVIÇO -->
 <label for="nome">Serviço:</label>
-<select name="servico" id=""><br>
-<option value="">---</option>
-<?php foreach($view_s as $valor_s){ ?> 
-<option value="<?php echo $valor_s["id_servico"]."<br/>";?>"><?php echo $valor_s["nome"]."<br/>"; ?></option>
-<?php } ?>
+        <select name="servico" id=""><br>
+        <option value="">---</option>
+        <?php foreach($view_s as $valor_s){ ?> 
+        <option value="<?php echo $valor_s["id_servico"]."<br/>";?>"><?php echo $valor_s["nome"]."<br/>"; ?></option>
+        <?php } ?>
 </select><br>
 
-<!-- QUANTIDADE_SERVIÇO -->
-<label for="nome">Quantidade:</label>
-<input type="number" name="qtd_servico"><br>
+    <!-- QUANTIDADE_SERVIÇO -->
+    <label for="nome">Quantidade:</label>
+        <input type="number" name="qtd_servico"><br>
 
-<!-- DATA  -->
-<label for="nome">Data da Venda:</label>
-<input type="date" name="data_venda" default-value="0" required><br>
+    <!-- DATA  -->
+    <label for="nome">Data da Venda:</label>
+        <input type="date" name="data_venda" default-value="0" required><br>
 
-<!-- OPERADOR -->
+    <!-- OPERADOR -->
 <label for="nome">Operador da venda:</label> 
-
 <select name="funcionario" id=""required>
-<option value="">---</option>
-<?php foreach($view_f as $valor_f){ ?>
-<option value="<?php  echo $valor_f["id_funcionario"]."<br/>" ?>"> <?php echo $valor_f["nome"]."<br/>"?> </option> 
-<?php } ?>
+        <option value="">---</option>
+        <?php foreach($view_f as $valor_f){ ?>
+        <option value="<?php  echo $valor_f["id_funcionario"]."<br/>" ?>"> <?php echo $valor_f["nome"]."<br/>"?> </option> 
+        <?php } ?>
 </select><br>
+
 <input type="submit" name = "btnCad" value="cadastrar"/> 
-
 </form>
-
 </body>
 </html>
 
