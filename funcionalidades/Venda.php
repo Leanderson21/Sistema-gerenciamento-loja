@@ -148,7 +148,7 @@ public function ordemServico(){
     return $dados_venda;
 }
 
-
+//MUDAR O NOME DA FUNÇÃO , FUNÇÃO SÓ EXIBI OS PRODUTOS E SUAS RESPECTIVAS QUANTIDADES
 public function produto_mais_vendido($dados){
     $this->data_1 = $dados["data1"];
     $this->data_2 = $dados["data2"];
